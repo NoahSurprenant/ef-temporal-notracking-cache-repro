@@ -14,8 +14,11 @@ await using (var setup = new BlogContext(connection))
     var blog = new Blog { Name = "First" };
     setup.Blogs.Add(blog);
     await setup.SaveChangesAsync();
+    // Apart in time: SQL Server leaves out of FOR SYSTEM_TIME ALL a version that lasted no time
+    await Task.Delay(100);
     blog.Name = "Second";
     await setup.SaveChangesAsync();
+    await Task.Delay(100);
     blog.Name = "Third";
     await setup.SaveChangesAsync();
 }
